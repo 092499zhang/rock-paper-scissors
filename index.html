@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"></script>
-</head>
-<body>
-    <div>
-        <h2>Your score</h2>
-    </div>
-    <button id="btn">rock</button>
-    <button id="btn">paper</button>
-    <button id="btn">scissors</button>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+    <h1>Rock Paper Scissors Game</h1>
+
+    <!-- 三个按钮，分别代表三种选择 -->
+    <button data-choice="rock">Rock</button>
+    <button data-choice="paper">Paper</button>
+    <button data-choice="scissors">Scissors</button>
+
+    <!-- 用于显示结果和得分 -->
+    <div id="result"></div>
+    <div id="score"></div>
+
+    <script src="script.js"></script>
+    <!-- 引入你的js -->
+  </body>
 </html>

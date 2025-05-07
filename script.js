@@ -1,68 +1,101 @@
+let humanScore = 0;
+let computerScore = 0;
+let roundCount = 0;
+const maxRounds = 3;
+let gameOver = false;
+
+const rules = {
+  rock: "scissors",
+  paper: "rock",
+  scissors: "paper"
+};
+
 function getComputerChoice() {
-    const arry = ["rock", "paper", "scissors"];
-    return arry[Math.floor(Math.random() * arry.length)];
+  const options = ["rock", "paper", "scissors"];
+  return options[Math.floor(Math.random() * options.length)];
 }
 
-function getHumanChoice() {
-    let choice = prompt("Make your guess (rock, paper, or scissors):").toLowerCase();
-    if (choice === "rock" || choice === "paper" || choice === "scissors") {
-        return choice;
-    } else {
-        console.log("You need to give a valid value.");
-        return undefined;
-    }
+function playRound(humanChoice, computerChoice) {
+  if (humanChoice === computerChoice) {
+    return "It's a tie!";
+  }
+
+  if (rules[humanChoice] === computerChoice) {
+    humanScore++;
+    return `You win this round! ${humanChoice} beats ${computerChoice}.`;
+  } else {
+    computerScore++;
+    return `You lose this round. ${computerChoice} beats ${humanChoice}.`;
+  }
 }
 
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
+function handleClick(e) {
+  if (gameOver) return; // 游戏结束时不允许再点击
 
-    function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-            return "It's a tie.";
-        } else if ((humanChoice === "rock" && computerChoice === "scissors") ||
-            (humanChoice === "paper" && computerChoice === "rock") ||
-            (humanChoice === "scissors" && computerChoice === "paper")) {
-            humanScore++;
-            return "You win!";
-        } else {
-            computerScore++;
-            return "You lose.";
-        }
-    }
+  const humanChoice = e.target.dataset.choice;
+  const computerChoice = getComputerChoice();
+  const resultMessage = playRound(humanChoice, computerChoice);
+  roundCount++;
 
-    const element = document.getElementById("btn");
-    element.addEventListener("click", playRound);
+  document.getElementById("result").textContent =
+    `Round ${roundCount}: You chose ${humanChoice}, computer chose ${computerChoice}. ${resultMessage}`;
 
-    for (let i = 0; i < 5; i++) {
-        let humanSelection = getHumanChoice();
-        if (humanSelection) {
-            let computerSelection = getComputerChoice();
-            console.log(`Computer chose: ${computerSelection}`);
-            console.log(`You chose: ${humanSelection}`);
-            console.log(playRound(humanSelection, computerSelection));
-            console.log(`Human Score: ${humanScore}`);
-            console.log(`Computer Score: ${computerScore}`);
-        } else {
-            console.log("Invalid choice, round skipped.");
-            i--; // Adjust the loop counter to ensure 5 valid rounds are played
-        }
-    }
+  document.getElementById("score").textContent =
+    `Score — You: ${humanScore}, Computer: ${computerScore}`;
 
-    // Display final scores
-    console.log(`Final Human Score: ${humanScore}`);
-    console.log(`Final Computer Score: ${computerScore}`);
+  if (roundCount === maxRounds) {
+    let finalMessage = "";
 
     if (humanScore > computerScore) {
-        console.log("You are the overall winner!");
+      finalMessage = "🎉 You are the overall winner!";
     } else if (computerScore > humanScore) {
-        console.log("The computer is the overall winner!");
+      finalMessage = "😢 The computer wins overall!";
     } else {
-        console.log("The game is a tie!");
+      finalMessage = "🤝 It's a tie overall!";
     }
+
+    const finalDiv = document.createElement("div");
+    finalDiv.id = "final-message";
+    finalDiv.textContent = finalMessage;
+    finalDiv.style.marginTop = "10px";
+    finalDiv.style.fontWeight = "bold";
+    document.body.appendChild(finalDiv);
+
+    createResetButton();
+    gameOver = true;
+  }
 }
 
-// Start the game
-playGame();
+function createResetButton() {
+  const resetBtn = document.createElement("button");
+  resetBtn.id = "reset-button";
+  resetBtn.textContent = "Play Again";
+  resetBtn.style.marginTop = "10px";
+  resetBtn.addEventListener("click", resetGame);
+  document.body.appendChild(resetBtn);
+}
 
+function resetGame() {
+  // 重置状态
+  humanScore = 0;
+  computerScore = 0;
+  roundCount = 0;
+  gameOver = false;
 
+  // 清除文字
+  document.getElementById("result").textContent = "";
+  document.getElementById("score").textContent = `Score — You: 0, Computer: 0`;
+
+  // 删除最终结果与按钮
+  const finalMsg = document.getElementById("final-message");
+  if (finalMsg) finalMsg.remove();
+
+  const resetBtn = document.getElementById("reset-button");
+  if (resetBtn) resetBtn.remove();
+}
+
+const buttons = document.querySelectorAll("button[data-choice]");
+buttons.forEach(btn => btn.addEventListener("click", handleClick));
+
+// 初始化分数
+document.getElementById("score").textContent = `Score — You: 0, Computer: 0`;
