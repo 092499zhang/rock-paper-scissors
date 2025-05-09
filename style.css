@@ -1,43 +1,66 @@
+/* 页面整体布局 */
 body {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100vh; /* Full screen height */
-    margin: 0; /* Remove default margin */
-    background-color: #f4f4f4; /* Optional background color */
-}
-
-h1 {
-    font-size: 40px;
-}
-
-p {
-    padding: 10px;
-}
-.box {
-    text-align: center; /* Ensure text inside is centered */
-    background: white;
-    padding: 200px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* 游戏主容器 */
+  .box {
+    text-align: center;
+    background-color: white;
+    padding: 60px;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.score-board {
-    padding: 20px;
-}
-
-button {
+  }
+  
+  /* 标题样式 */
+  .box h1 {
+    font-size: 40px;
+    margin-bottom: 30px;
+  }
+  
+  /* 按钮区域 */
+  .button-group {
+    margin-bottom: 30px;
+  }
+  
+  /* 所有按钮通用样式 */
+  .button-group button,
+  #reset-button {
     background-color: rgb(132, 234, 141);
     border-radius: 10px;
     padding: 10px 20px;
+    margin: 5px;
     border: none;
-    color: aliceblue;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: medium;
+    color: white;
+    font-size: 16px;
     font-weight: bold;
-    box-shadow: 0px 4px 6px rgba(0, 0 , 0 , 0.1);
-}
-
-button:hover {
-background-color: #2eca48;
-}
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  /* 鼠标悬停按钮高亮 */
+  .button-group button:hover,
+  #reset-button:hover {
+    background-color: #2eca48;
+  }
+  
+  /* 分数和结果显示区域 */
+  #result,
+  #score,
+  #winner {
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  /* 胜利信息额外样式 */
+  #winner {
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  

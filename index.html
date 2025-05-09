@@ -2,21 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./style.css" />
     <title>Rock Paper Scissors</title>
   </head>
   <body>
-    <h1>Rock Paper Scissors Game</h1>
+    <div class="box">
+      <h1>Rock Paper Scissors Game</h1>
 
-    <!-- 三个按钮，分别代表三种选择 -->
-    <button data-choice="rock">Rock</button>
-    <button data-choice="paper">Paper</button>
-    <button data-choice="scissors">Scissors</button>
+      <div class="button-group">
+        <button data-choice="rock">Rock</button>
+        <button data-choice="paper">Paper</button>
+        <button data-choice="scissors">Scissors</button>
+      </div>
 
-    <!-- 用于显示结果和得分 -->
-    <div id="result"></div>
-    <div id="score"></div>
+      <div id="result"></div>
+      <div id="score"></div>
+      <div id="winner"></div>
+    </div>
 
     <script src="script.js"></script>
-    <!-- 引入你的js -->
   </body>
 </html>

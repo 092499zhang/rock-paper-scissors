@@ -1,7 +1,5 @@
 let humanScore = 0;
 let computerScore = 0;
-let roundCount = 0;
-const maxRounds = 3;
 let gameOver = false;
 
 const rules = {
@@ -30,63 +28,57 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function handleClick(e) {
-  if (gameOver) return; // 游戏结束时不允许再点击
+  if (gameOver) return;
 
   const humanChoice = e.target.dataset.choice;
   const computerChoice = getComputerChoice();
   const resultMessage = playRound(humanChoice, computerChoice);
-  roundCount++;
 
   document.getElementById("result").textContent =
-    `Round ${roundCount}: You chose ${humanChoice}, computer chose ${computerChoice}. ${resultMessage}`;
+    `You chose ${humanChoice}, computer chose ${computerChoice}. ${resultMessage}`;
 
   document.getElementById("score").textContent =
     `Score — You: ${humanScore}, Computer: ${computerScore}`;
 
-  if (roundCount === maxRounds) {
-    let finalMessage = "";
-
-    if (humanScore > computerScore) {
-      finalMessage = "🎉 You are the overall winner!";
-    } else if (computerScore > humanScore) {
-      finalMessage = "😢 The computer wins overall!";
-    } else {
-      finalMessage = "🤝 It's a tie overall!";
-    }
-
-    const finalDiv = document.createElement("div");
-    finalDiv.id = "final-message";
-    finalDiv.textContent = finalMessage;
-    finalDiv.style.marginTop = "10px";
-    finalDiv.style.fontWeight = "bold";
-    document.body.appendChild(finalDiv);
-
-    createResetButton();
-    gameOver = true;
+  if (humanScore === 5 || computerScore === 5) {
+    endGame();
   }
 }
 
-function createResetButton() {
+function endGame() {
+  gameOver = true;
+
+  const finalMessage =
+    humanScore === 5
+      ? "You reached 5 points. You win!"
+      : "Computer reached 5 points. You lose!";
+
+  const finalDiv = document.createElement("div");
+  finalDiv.id = "final-message";
+  finalDiv.textContent = finalMessage;
+  finalDiv.style.marginTop = "20px";
+  finalDiv.style.fontWeight = "bold";
+
   const resetBtn = document.createElement("button");
   resetBtn.id = "reset-button";
   resetBtn.textContent = "Play Again";
   resetBtn.style.marginTop = "10px";
   resetBtn.addEventListener("click", resetGame);
-  document.body.appendChild(resetBtn);
+
+  //添加到主容器 .box 内部，而不是 document.body
+  const container = document.querySelector(".box");
+  container.appendChild(finalDiv);
+  container.appendChild(resetBtn);
 }
 
 function resetGame() {
-  // 重置状态
   humanScore = 0;
   computerScore = 0;
-  roundCount = 0;
   gameOver = false;
 
-  // 清除文字
   document.getElementById("result").textContent = "";
   document.getElementById("score").textContent = `Score — You: 0, Computer: 0`;
 
-  // 删除最终结果与按钮
   const finalMsg = document.getElementById("final-message");
   if (finalMsg) finalMsg.remove();
 
@@ -94,8 +86,9 @@ function resetGame() {
   if (resetBtn) resetBtn.remove();
 }
 
+// 初始化按钮监听器
 const buttons = document.querySelectorAll("button[data-choice]");
 buttons.forEach(btn => btn.addEventListener("click", handleClick));
 
-// 初始化分数
+// 初始分数显示
 document.getElementById("score").textContent = `Score — You: 0, Computer: 0`;
